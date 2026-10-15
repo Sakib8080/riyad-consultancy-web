@@ -1,0 +1,11 @@
+<Project>
+  <!-- Change the framework / EF version here ONLY. Requested: .NET 6 + EF Core 6.
+       To move to a supported runtime, set TargetFramework to net8.0 and EfCoreVersion to 8.0.* -->
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <EfCoreVersion>6.0.*</EfCoreVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>10.0</LangVersion>
+  </PropertyGroup>
+</Project>

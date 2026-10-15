@@ -1,0 +1,72 @@
+@model BlogDetailModel
+@{
+    var p = Model.Post;
+    ViewData["Title"] = p.Title;
+    ViewData["Description"] = p.Summary;
+    ViewData["Banner"] = "Blog";
+    ViewData["BannerSub"] = "Details";
+    var comment = new CommentForm();
+}
+
+<div class="container-fluid no-left-padding no-right-padding blog-single">
+    <div class="container">
+        <div class="col-md-9 col-sm-6 col-xs-12 content-area">
+            <article class="type-post">
+                <div class="entry-header">
+                    <img src="@p.ImageUrl.Or("/assets/images/blog-1.jpg")" alt="@p.Title">
+                    <div class="post-date"><a href="#">@p.PublishedAt.ToString("dd") <span>@p.PublishedAt.ToString("MMM").ToUpperInvariant()</span></a></div>
+                </div>
+                <h3 class="entry-title">@p.Title</h3>
+                <div class="entry-meta">
+                    <span class="byline"><a href="#">@p.Author.Or("Admin")</a></span>
+                    @if (p.Category != null) { <span class="post-category"><a href="/blog?category=@p.Category.Slug">@p.Category.Name</a></span> }
+                </div>
+                <div class="entry-content">@Html.Raw(p.Content)</div>
+
+                <div class="social-share">
+                    <div class="post-control">
+                        @if (Model.Previous != null) { <a href="/blog/@Model.Previous.Slug"><i class="fa fa-angle-left"></i> Prev</a> }
+                        @if (Model.Next != null) { <a href="/blog/@Model.Next.Slug">Next <i class="fa fa-angle-right"></i></a> }
+                    </div>
+                </div>
+            </article>
+
+            <div id="comments" class="comments-area">
+                <h2 class="comments-title">@Model.Comments.Count @(Model.Comments.Count == 1 ? "Comment" : "Comments")</h2>
+                <ol class="comment-list">
+                    @foreach (var c in Model.Comments)
+                    {
+                        <li class="comment even thread-even depth-1">
+                            <div class="comment-body">
+                                <footer class="comment-meta">
+                                    <div class="comment-author vcard"><b class="fn">@c.Name</b></div>
+                                    <div class="comment-metadata"><a href="#">@c.CreatedAt.ToString("MMM dd, yyyy")</a></div>
+                                </footer>
+                                <div class="comment-content"><p>@c.Message</p></div>
+                            </div>
+                        </li>
+                    }
+                </ol>
+
+                <div id="respond" class="comment-respond">
+                    <h2 class="comment-reply-title">Write Comments</h2>
+                    <form method="post" action="/blog/@p.Slug/comment" id="commentform" class="comment-form row" asp-antiforgery="true">
+                        <div class="col-md-5 col-xs-12">
+                            <p class="comment-form-author"><input name="Name" placeholder="Name*" required maxlength="100" type="text"></p>
+                            <p class="comment-form-phone"><input name="Phone" placeholder="Phone Number" maxlength="50" type="text"></p>
+                            <p class="comment-form-email"><input name="Email" placeholder="Email Id*" required maxlength="150" type="email"></p>
+                        </div>
+                        <div class="col-md-5 col-xs-12">
+                            <p class="comment-form-comment"><textarea name="Message" rows="8" placeholder="Message*" required maxlength="2000"></textarea></p>
+                        </div>
+                        <div style="position:absolute;left:-5000px" aria-hidden="true"><input name="Website" tabindex="-1" autocomplete="off" /></div>
+                        <div class="col-md-2 col-xs-12">
+                            <p class="form-submit"><input name="submit" class="submit" value="send" type="submit"></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <partial name="_BlogSidebar" model="Model.Sidebar" />
+    </div>
+</div>

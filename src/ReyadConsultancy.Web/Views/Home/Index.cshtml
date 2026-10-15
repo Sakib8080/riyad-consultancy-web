@@ -1,0 +1,171 @@
+@model HomePageModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+@if (Model.Slides.Any())
+{
+    <div id="home-revslider" class="slider-section container-fluid no-padding">
+        <div class="rev_slider_wrapper">
+            <div id="home-slider1" class="rev_slider" data-version="5.3">
+                <ul>
+                    @{ var si = 0; }
+                    @foreach (var sl in Model.Slides)
+                    {
+                        si++;
+                        <li>
+                            <img src="@sl.ImageUrl.Or("/assets/images/slide-1.jpg")" alt="@sl.Title" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="10" class="rev-slidebg" data-no-retina="">
+                            <div class="tp-caption tp-shape tp-shapewrapper" id="slide-@(si)-layer-0" data-x="['center','center','center','center']" data-y="['middle','middle','middle','middle']" data-basealign="slide" data-height="full" data-hoffset="['0','0','0','0']" data-responsive="off" data-responsive_offset="off" data-start="0" data-transform_idle="o:1;" data-transform_in="opacity:0;s:2000;e:Power2.easeInOut;" data-transform_out="opacity:0;s:500;s:500;" data-voffset="['0','0','0','0']" data-whitespace="nowrap" data-width="full" style="z-index: 5;background-color:rgba(0, 0, 0, 0.35);"></div>
+
+                            @if (!string.IsNullOrWhiteSpace(sl.Subtitle))
+                            {
+                                <div class="tp-caption NotGeneric-Title tp-resizeme rs-parallaxlevel-0" id="slide-@(si)-layer-1" data-x="['left','left','left','left']" data-hoffset="['388','100','20','15']" data-y="['middle','middle','middle','middle']" data-voffset="['-109','-109','-109','-109']" data-fontsize="['24','24','24','24']" data-lineheight="['26','26','26','26']" data-whitespace="nowrap" data-transform_idle="o:1;" data-transform_in="x:[-105%];s:1000;e:Power4.slideInRight;" data-transform_out="y:[100%];s:1000;s:1000;e:Power2.slideInRight;" data-mask_in="x:0px;y:0px;s:inherit;e:inherit;" data-mask_out="x:inherit;y:inherit;s:inherit;e:inherit;" data-start="1000" data-splitin="none" data-splitout="none" data-responsive_offset="on" data-elementdelay="0.05" data-textalign="['left','left','left','left']" style="z-index: 5; letter-spacing: 0.96px; color:#fff; text-transform: capitalize; font-weight:bold; font-family: 'Catamaran', sans-serif;">@sl.Subtitle</div>
+                            }
+
+                            <div class="tp-caption NotGeneric-Title tp-resizeme rs-parallaxlevel-0" id="slide-@(si)-layer-2" data-x="['left','left','left','left']" data-hoffset="['388','100','20','15']" data-y="['middle','middle','middle','middle']" data-voffset="['-56','-56','-56','-56']" data-fontsize="['36','36','36','30']" data-lineheight="['42','42','42','42']" data-width="['700','700','670','400']" data-whitespace="normal" data-transform_idle="o:1;" data-transform_in="x:[-105%];s:1000;e:Power4.slideInRight;" data-transform_out="y:[100%];s:1000;s:1000;e:Power2.slideInRight;" data-mask_in="x:0px;y:0px;s:inherit;e:inherit;" data-mask_out="x:inherit;y:inherit;s:inherit;e:inherit;" data-start="1000" data-splitin="none" data-splitout="none" data-responsive_offset="on" data-elementdelay="0.05" data-textalign="['left','left','left','left']" style="z-index: 5; letter-spacing: 2.75px; color:#fff;text-transform: uppercase; word-wrap: break-word; font-weight:bold; font-family: 'Vollkorn', serif;">@sl.Title</div>
+
+                            @if (!string.IsNullOrWhiteSpace(sl.Description))
+                            {
+                                <div class="tp-caption NotGeneric-Title tp-resizeme rs-parallaxlevel-0" id="slide-@(si)-layer-3" data-x="['left','left','left','left']" data-hoffset="['388','100','20','15']" data-y="['middle','middle','middle','middle']" data-voffset="['35','35','35','45']" data-fontsize="['16','16','16','16']" data-lineheight="['26','26','26','26']" data-width="['670','670','600','400']" data-whitespace="normal" data-transform_idle="o:1;" data-transform_in="x:[105%];s:1000;e:Power4.slideInLeft;" data-transform_out="y:[100%];s:1000;s:1000;e:Power2.slideInLeft;" data-start="1000" data-responsive_offset="on" data-elementdelay="0.05" data-textalign="['left','left','left','left']" style="z-index: 5; white-space: normal; word-wrap:break-word; font-weight: 400; font-family: 'Catamaran', sans-serif; letter-spacing: 0.6px; color:#e2e2e2;">@sl.Description</div>
+                            }
+
+                            @if (!string.IsNullOrWhiteSpace(sl.ButtonText))
+                            {
+                                <div class="tp-caption NotGeneric-Button rev-btn rs-parallaxlevel-0" id="slide-@(si)-layer-4" data-x="['left','left','left','left']" data-hoffset="['388','100','20','15']" data-y="['middle','middle','middle','middle']" data-voffset="['130','130','130','130']" data-fontsize="['14','14','14','12']" data-lineheight="['26','26','26','26']" data-width="none" data-height="none" data-whitespace="nowrap" data-transform_idle="o:1;" data-transform_in="x:[105%];s:1000;e:Power4.slideInLeft;" data-transform_out="y:[100%];s:1000;s:1000;e:Power2.slideInLeft;" data-start="1500" data-splitin="none" data-splitout="none" data-responsive_offset="on" data-responsive="off" data-paddingtop="[9,9,9,6]" data-paddingright="[40,40,40,20]" data-paddingbottom="[9,9,9,6]" data-paddingleft="[40,40,40,20]" style="z-index: 10; border-radius: 5px; background-color: #b89b5e; border: none; letter-spacing:0.6px; color: #fff; font-weight: bold; font-family: 'Vollkorn', serif; text-transform:uppercase; white-space: nowrap;outline:none; box-shadow:none;"><a href="@sl.ButtonUrl.Or("/services")" style="color:#fff">@sl.ButtonText</a></div>
+                            }
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+}
+
+@if (Model.Features.Any())
+{
+    <div class="container-fluid no-left-padding no-right-padding features-section">
+        <div class="container">
+            <div class="feature-carousel">
+                @foreach (var f in Model.Features)
+                {
+                    <div class="col-md-12">
+                        <div class="feature-box">
+                            <div class="feature-img-box">
+                                <img src="@f.ImageUrl.Or("/assets/images/feature-1.jpg")" alt="@f.Title">
+                                <div class="feature-content">
+                                    <i><img src="/assets/images/feature-icon.png" alt="Icon"></i>
+                                    <p>@f.Description</p>
+                                    @if (!string.IsNullOrWhiteSpace(f.LinkUrl)) { <a href="@f.LinkUrl" title="Read More">Read More <i class="arrow_right"></i></a> }
+                                </div>
+                            </div>
+                            <h4>@f.Title</h4>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@if (Model.AboutItems.Any() || Model.About != null)
+{
+    <div class="container-fluid no-left-padding no-right-padding about-section">
+        <div class="about-img-block col-md-6 col-xs-12 no-left-padding no-right-padding" data-image="@((Model.About?.ImageUrl).Or("/assets/images/service-img.jpg"))"></div>
+        <div class="container">
+            <div class="col-md-offset-6 col-md-6 col-xs-12 about-content">
+                <div class="section-header"><h3>@(Model.About?.Title ?? "About Us")</h3></div>
+                @if (!string.IsNullOrWhiteSpace(Model.About?.Body)) { <div>@Html.Raw(Model.About!.Body)</div> }
+                <div class="about-details">
+                    @foreach (var a in Model.AboutItems)
+                    {
+                        <div class="about-details-box">
+                            <i><img src="@a.IconUrl.Or("/assets/images/about-cnt-icon-1.png")" alt="Icon"></i>
+                            <h4>@a.Title</h4>
+                            <p>@a.Description</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (Model.Services.Any())
+{
+    <div class="container-fluid no-left-padding no-right-padding services-section">
+        <div class="container">
+            <div class="section-header text-center"><h3>OUR SERVICES</h3></div>
+            <ul class="nav nav-tabs srv-tab" role="tablist">
+                @{ var ti = 0; }
+                @foreach (var s in Model.Services)
+                {
+                    <li role="presentation" class="@(ti == 0 ? "active" : "")">
+                        <a href="#svc-@s.Id" title="@s.Title" aria-controls="svc-@s.Id" role="tab" data-toggle="tab">
+                            <span><i><img src="@s.IconUrl.Or("/assets/images/services-icon-1.png")" alt="Icon"></i>@s.Title</span>
+                        </a>
+                    </li>
+                    ti++;
+                }
+            </ul>
+        </div>
+        <div class="container-fluid no-left-padding no-right-padding services-tab-content">
+            <div class="container">
+                <div class="tab-content">
+                    @{ var pi = 0; }
+                    @foreach (var s in Model.Services)
+                    {
+                        <div role="tabpanel" class="tab-pane @(pi == 0 ? "active" : "")" id="svc-@s.Id">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <img src="@s.ImageUrl.Or("/assets/images/service-img.jpg")" alt="@s.Title">
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 services-content">
+                                <h3>@s.Title</h3>
+                                <p>@s.ShortDescription</p>
+                                <a href="/services/@s.Slug" title="Read More">Read More <i class="fa fa-angle-right"></i></a>
+                            </div>
+                        </div>
+                        pi++;
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="container">
+    <div class="row">
+        @if (Model.Faqs.Any())
+        {
+            <div class="col-md-6 col-xs-12 faq-section">
+                <div class="section-header"><h3>frequently asked questions</h3></div>
+                <partial name="_FaqAccordion" model="Model.Faqs" />
+            </div>
+        }
+        @if (Model.LatestPosts.Any())
+        {
+            <div class="col-md-6 col-xs-12 latest-post-section">
+                <div class="section-header"><h3>latest posts</h3></div>
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#latest" aria-controls="latest" role="tab" data-toggle="tab">NEWS</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="latest">
+                        @foreach (var p in Model.LatestPosts)
+                        {
+                            <div class="latest-post">
+                                <a href="/blog/@p.Slug"><img src="@p.ImageUrl.Or("/assets/images/latest-post-1.jpg")" alt="@p.Title"></a>
+                                <h4><a href="/blog/@p.Slug">@p.Title</a></h4>
+                                <span><a href="/blog/@p.Slug">@p.PublishedAt.ToString("MMMM dd, yyyy").ToUpperInvariant()</a></span>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<partial name="_CounterSection" model="Model.Counters" />
+<partial name="_TeamSection" model="Model.Team" />
+<partial name="_TestimonialSection" model="Model.Testimonials" />
+<partial name="_ClientSection" model="Model.Clients" />

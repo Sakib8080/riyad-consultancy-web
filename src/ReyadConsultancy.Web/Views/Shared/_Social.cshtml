@@ -1,0 +1,7 @@
+@model TeamMember
+<ul>
+    @if (!string.IsNullOrWhiteSpace(Model.FacebookUrl)) { <li><a href="@Model.FacebookUrl" title="Facebook"><i class="fa fa-facebook"></i></a></li> }
+    @if (!string.IsNullOrWhiteSpace(Model.TwitterUrl)) { <li><a href="@Model.TwitterUrl" title="Twitter"><i class="fa fa-twitter"></i></a></li> }
+    @if (!string.IsNullOrWhiteSpace(Model.LinkedInUrl)) { <li><a href="@Model.LinkedInUrl" title="LinkedIn"><i class="fa fa-linkedin"></i></a></li> }
+    @if (!string.IsNullOrWhiteSpace(Model.PinterestUrl)) { <li><a href="@Model.PinterestUrl" title="Pinterest"><i class="fa fa-pinterest"></i></a></li> }
+</ul>

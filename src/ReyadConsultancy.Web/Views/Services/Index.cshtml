@@ -1,0 +1,79 @@
+@model ServicesPageModel
+@{
+    ViewData["Title"] = "Services";
+    ViewData["Banner"] = "SERVICES";
+}
+
+@if (Model.Services.Any())
+{
+    <div class="container-fluid no-left-padding no-right-padding services-section">
+        <div class="container">
+            <div class="section-header text-center"><h3>OUR SERVICES</h3></div>
+            <ul class="nav nav-tabs srv-tab" role="tablist">
+                @{ var ti = 0; }
+                @foreach (var s in Model.Services)
+                {
+                    <li role="presentation" class="@(ti == 0 ? "active" : "")">
+                        <a href="#svc-@s.Id" title="@s.Title" aria-controls="svc-@s.Id" role="tab" data-toggle="tab">
+                            <span><i><img src="@s.IconUrl.Or("/assets/images/services-icon-1.png")" alt="Icon"></i>@s.Title</span>
+                        </a>
+                    </li>
+                    ti++;
+                }
+            </ul>
+        </div>
+        <div class="container-fluid no-left-padding no-right-padding services-tab-content">
+            <div class="container">
+                <div class="tab-content">
+                    @{ var pi = 0; }
+                    @foreach (var s in Model.Services)
+                    {
+                        <div role="tabpanel" class="tab-pane @(pi == 0 ? "active" : "")" id="svc-@s.Id">
+                            <div class="col-md-6 col-sm-6 col-xs-12"><img src="@s.ImageUrl.Or("/assets/images/service-img.jpg")" alt="@s.Title"></div>
+                            <div class="col-md-6 col-sm-6 col-xs-12 services-content">
+                                <h3>@s.Title</h3>
+                                <p>@s.ShortDescription</p>
+                                <a href="/services/@s.Slug" title="Read More">Read More <i class="fa fa-angle-right"></i></a>
+                            </div>
+                        </div>
+                        pi++;
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="container">
+    <div class="row">
+        @if (Model.Faqs.Any())
+        {
+            <div class="col-md-6 col-xs-12 faq-section">
+                <div class="section-header"><h3>frequently asked questions</h3></div>
+                <partial name="_FaqAccordion" model="Model.Faqs" />
+            </div>
+        }
+        <div class="col-md-6 col-xs-12 appointment-form-section">
+            <div class="section-header"><h3>book an appointment</h3></div>
+            <div class="book-appointment-form">
+                <form method="post" action="/appointment" asp-antiforgery="true">
+                    <input type="hidden" name="returnUrl" value="/services" />
+                    <div class="form-group col-md-12"><input type="text" name="FirstName" placeholder="Enter Your Name*" class="form-control" required maxlength="100"></div>
+                    <div class="form-group col-md-12"><input type="text" name="Phone" placeholder="Phone Number*" class="form-control" required maxlength="50"></div>
+                    <div class="form-group col-md-6"><input type="date" name="AppointmentDate" class="form-control" placeholder="Date of Appointment"></div>
+                    <div class="form-group col-md-6">
+                        <select name="CaseType" class="form-control">
+                            <option value="">Select service</option>
+                            @foreach (var s in Model.Services) { <option value="@s.Title">@s.Title</option> }
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12"><input type="text" name="Message" placeholder="Details of your request" class="form-control" maxlength="3000"></div>
+                    <div style="position:absolute;left:-5000px" aria-hidden="true"><input name="Website" tabindex="-1" autocomplete="off" /></div>
+                    <div class="form-group col-md-12"><input type="submit" value="make an appointment"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<partial name="_ClientSection" model="Model.Clients" />

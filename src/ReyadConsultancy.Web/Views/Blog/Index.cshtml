@@ -1,0 +1,60 @@
+@model BlogListModel
+@{
+    ViewData["Title"] = "Blog";
+    ViewData["Banner"] = "Blog";
+
+    string PageUrl(int p)
+    {
+        var q = new List<string> { "page=" + p };
+        if (!string.IsNullOrEmpty(Model.CategorySlug)) q.Add("category=" + Uri.EscapeDataString(Model.CategorySlug));
+        if (!string.IsNullOrEmpty(Model.Search)) q.Add("q=" + Uri.EscapeDataString(Model.Search));
+        if (!string.IsNullOrEmpty(Model.Tag)) q.Add("tag=" + Uri.EscapeDataString(Model.Tag));
+        return "/blog?" + string.Join("&", q);
+    }
+}
+
+<div class="container-fluid no-left-padding no-right-padding blog-post">
+    <div class="container">
+        <div class="col-md-9 col-sm-6 content-area">
+            @if (!Model.Posts.Any())
+            {
+                <p>No posts were found.</p>
+            }
+            @foreach (var p in Model.Posts)
+            {
+                <div class="type-post">
+                    <div class="entry-header">
+                        <a href="/blog/@p.Slug"><img src="@p.ImageUrl.Or("/assets/images/blog-1.jpg")" alt="@p.Title"></a>
+                        <div class="post-date"><a href="/blog/@p.Slug">@p.PublishedAt.ToString("dd") <span>@p.PublishedAt.ToString("MMM").ToUpperInvariant()</span></a></div>
+                    </div>
+                    <h3 class="entry-title"><a href="/blog/@p.Slug" title="@p.Title">@p.Title</a></h3>
+                    <div class="entry-meta">
+                        <span class="byline"><a href="/blog/@p.Slug">@p.Author.Or("Admin")</a></span>
+                        @if (p.Category != null) { <span class="post-category"><a href="/blog?category=@p.Category.Slug">@p.Category.Name</a></span> }
+                    </div>
+                    <div class="entry-content">
+                        <p>@p.Summary</p>
+                        <a href="/blog/@p.Slug">Read More<i class="fa fa-angle-right"></i></a>
+                    </div>
+                </div>
+            }
+
+            @if (Model.TotalPages > 1)
+            {
+                <nav class="ow-pagination">
+                    <ul class="pagination">
+                        @for (var i = 1; i <= Model.TotalPages; i++)
+                        {
+                            <li class="@(i == Model.Page ? "active" : "")"><a href="@PageUrl(i)">@i</a></li>
+                        }
+                        @if (Model.Page < Model.TotalPages)
+                        {
+                            <li class="next"><a href="@PageUrl(Model.Page + 1)">Next <i class="fa fa-angle-double-right"></i></a></li>
+                        }
+                    </ul>
+                </nav>
+            }
+        </div>
+        <partial name="_BlogSidebar" model="Model.Sidebar" />
+    </div>
+</div>

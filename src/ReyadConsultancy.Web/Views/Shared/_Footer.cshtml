@@ -1,0 +1,90 @@
+@model LayoutModel
+@{
+    var s = Model.Settings;
+}
+<footer id="footer-main" class="container-fluid no-left-padding no-right-padding footer-main">
+    <div class="container-fluid no-left-padding no-right-padding top-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-xs-6">
+                    <aside class="widget widget_about">
+                        <h3 class="widget-title">ABOUT US</h3>
+                        <img src="@s.FooterImageUrl.Or("/assets/images/ftr-abt-img.jpg")" alt="@s.SiteName">
+                        <p>@s.FooterAboutText</p>
+                    </aside>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-6">
+                    <aside class="widget widget_categories">
+                        <h3 class="widget-title">quick links</h3>
+                        <ul>
+                            <li><a href="/" title="Homepage">homepage</a></li>
+                            <li><a href="/about" title="About Us">about us</a></li>
+                            <li><a href="/services" title="Services">services</a></li>
+                            <li><a href="/about#team" title="Our Team">our team</a></li>
+                            <li><a href="/blog" title="Latest News">latest news</a></li>
+                            <li><a href="/appointment" title="Appointment">appointment</a></li>
+                            <li><a href="/contact" title="Contact">contact</a></li>
+                        </ul>
+                    </aside>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-6">
+                    <aside class="widget widget_latestposts">
+                        <h3 class="widget-title">recent posts</h3>
+                        @foreach (var p in Model.RecentPosts)
+                        {
+                            <div class="latest-content">
+                                <a href="/blog/@p.Slug" title="@p.Title"><i><img src="@p.ImageUrl.Or("/assets/images/ftr-wd-lp-1.jpg")" class="wp-post-image" alt="@p.Title" style="width:80px;height:80px;object-fit:cover"></i></a>
+                                <h5><a title="@p.Title" href="/blog/@p.Slug">@p.Title</a></h5>
+                                <span><a href="/blog/@p.Slug">@p.PublishedAt.ToString("MMMM dd, yyyy")</a></span>
+                            </div>
+                        }
+                    </aside>
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-6">
+                    <aside class="widget widget_latesttweets">
+                        <h3 class="widget-title">CONTACT US</h3>
+                        <div class="latest-tweets-content">
+                            @if (!string.IsNullOrWhiteSpace(s.Address)) { <p><i class="fa fa-map-marker"></i> @s.Address</p> }
+                            @if (!string.IsNullOrWhiteSpace(s.Phone1)) { <p><i class="fa fa-phone"></i> <a href="tel:@s.Phone1">@s.Phone1</a></p> }
+                            @if (!string.IsNullOrWhiteSpace(s.Email1)) { <p><i class="fa fa-envelope-o"></i> <a href="mailto:@s.Email1">@s.Email1</a></p> }
+                        </div>
+                        <div class="post-meta">
+                            @if (!string.IsNullOrWhiteSpace(s.FacebookUrl)) { <a href="@s.FacebookUrl" title="Facebook"><i class="fa fa-facebook"></i></a> }
+                            @if (!string.IsNullOrWhiteSpace(s.TwitterUrl)) { <a href="@s.TwitterUrl" title="Twitter"><i class="fa fa-twitter"></i></a> }
+                            @if (!string.IsNullOrWhiteSpace(s.LinkedInUrl)) { <a href="@s.LinkedInUrl" title="LinkedIn"><i class="fa fa-linkedin"></i></a> }
+                            @if (!string.IsNullOrWhiteSpace(s.PinterestUrl)) { <a href="@s.PinterestUrl" title="Pinterest"><i class="fa fa-pinterest"></i></a> }
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid bottom-footer no-left-padding no-right-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <p>COPYRIGHTS <i class="fa fa-copyright"></i> @DateTime.UtcNow.Year @s.CopyrightText.Or("ALL RIGHTS RESERVED")</p>
+                </div>
+                <div class="col-md-8 col-sm-12 col-xs-12">
+                    <nav class="navbar ownavigation">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-ftr" aria-expanded="false" aria-controls="navbar">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                            </button>
+                        </div>
+                        <div id="navbar-ftr" class="navbar-collapse collapse">
+                            <ul class="nav navbar-nav">
+                                <li><a href="/" title="Home">Home</a></li>
+                                <li><a href="/about" title="About Us">About Us</a></li>
+                                <li><a href="/services" title="Services">services</a></li>
+                                <li><a href="/blog" title="Latest News">latest news</a></li>
+                                <li><a href="/contact" title="Contact">Contact</a></li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,38 @@
+@model RegisterViewModel
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AuthLayout.cshtml";
+    ViewData["Title"] = "Register";
+    ViewData["BodyClass"] = "register-page";
+}
+<div class="register-box">
+    <div class="register-logo"><a href="/"><b>RBSC</b> Admin</a></div>
+    <div class="card">
+        <div class="card-body register-card-body">
+            <p class="login-box-msg">Register a new account</p>
+            <div asp-validation-summary="All" class="text-danger small mb-2"></div>
+
+            <form method="post" asp-antiforgery="true">
+                <div class="input-group mb-3">
+                    <input asp-for="FullName" class="form-control" placeholder="Full name">
+                    <div class="input-group-append"><div class="input-group-text"><span class="fas fa-user"></span></div></div>
+                </div>
+                <div class="input-group mb-3">
+                    <input asp-for="Email" type="email" class="form-control" placeholder="Email">
+                    <div class="input-group-append"><div class="input-group-text"><span class="fas fa-envelope"></span></div></div>
+                </div>
+                <div class="input-group mb-3">
+                    <input asp-for="Password" type="password" class="form-control" placeholder="Password (min 8, upper, lower, digit)" autocomplete="new-password">
+                    <div class="input-group-append"><div class="input-group-text"><span class="fas fa-lock"></span></div></div>
+                </div>
+                <div class="input-group mb-3">
+                    <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Retype password" autocomplete="new-password">
+                    <div class="input-group-append"><div class="input-group-text"><span class="fas fa-lock"></span></div></div>
+                </div>
+                <p class="small text-muted">New accounts must be approved by an administrator before they can sign in.</p>
+                <button type="submit" class="btn btn-primary btn-block">Register</button>
+            </form>
+
+            <a asp-action="Login" class="text-center d-block mt-3">I already have an account</a>
+        </div>
+    </div>
+</div>

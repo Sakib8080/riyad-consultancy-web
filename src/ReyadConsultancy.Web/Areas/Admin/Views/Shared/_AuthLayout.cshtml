@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewData["Title"] - RBSC Admin</title>
+    <link rel="icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/admin/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="/admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <link rel="stylesheet" href="/admin/dist/css/adminlte.min.css">
+</head>
+<body class="hold-transition @(ViewData["BodyClass"] ?? "login-page")">
+    @RenderBody()
+    <script src="/admin/plugins/jquery/jquery.min.js"></script>
+    <script src="/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/admin/dist/js/adminlte.min.js"></script>
+</body>
+</html>

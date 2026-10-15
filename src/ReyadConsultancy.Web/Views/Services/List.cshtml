@@ -1,0 +1,28 @@
+@model List<Service>
+@{
+    ViewData["Title"] = "Services List";
+    ViewData["Banner"] = "Services";
+    ViewData["BannerSub"] = "List";
+}
+
+<div class="container-fluid no-left-padding no-right-padding no-top-padding our-practice-section bg-transparent">
+    <div class="container">
+        <div class="row">
+            @foreach (var s in Model)
+            {
+                <div class="col-md-3 col-xs-6">
+                    <div class="practice-box">
+                        <a href="/services/@s.Slug">
+                            <i><img src="@s.ImageUrl.Or("/assets/images/practice-1.jpg")" alt="@s.Title"></i>
+                            <div class="content-box">
+                                <i><img src="@s.IconUrl.Or("/assets/images/practice-icon-1.png")" alt="Icon"></i>
+                                <h4>@s.Title</h4>
+                                <p>@s.Subtitle</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,64 @@
+@model LayoutModel
+@{
+    var s = Model.Settings;
+    var ctrl = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+    var act = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
+    string Active(bool on) => on ? "active" : "";
+}
+<header class="header_s header_s1">
+    <div id="slidepanel">
+        <div class="container-fluid no-right-padding no-left-padding top-header">
+            <div class="container">
+                <div class="top-left">
+                    @if (!string.IsNullOrWhiteSpace(s.Address)) { <p><i class="fa fa-map-marker"></i>@s.Address</p> }
+                    @if (!string.IsNullOrWhiteSpace(s.Phone1)) { <p><i class="fa fa-phone"></i> Mobile: <a href="tel:@s.Phone1">@s.Phone1</a></p> }
+                </div>
+                <div class="top-login">
+                    <p><i class="fa fa-user"></i><a href="/admin/Account/Login" title="Login">Login</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar ownavigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/"><img src="@s.LogoUrl.Or("/assets/images/logo.png")" alt="@s.SiteName"></a>
+            </div>
+            <div class="submit-btn">
+                <a href="/appointment" title="Free Consultation">free consultation</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse navbar-right">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="@Active(ctrl == "Home" && act == "Index")"><a href="/" title="Home">Home</a></li>
+                    <li class="@Active(act == "About")"><a href="/about" title="About">About</a></li>
+                    <li><a href="/about#team" title="Our Team">OUR TEAM</a></li>
+                    <li class="dropdown @Active(ctrl == "Services")">
+                        <a href="/services" class="dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">Services</a>
+                        <i class="ddl-switch fa fa-angle-down"></i>
+                        <ul class="dropdown-menu">
+                            <li><a href="/services" title="All Services">All Services</a></li>
+                            @foreach (var svc in Model.MenuServices)
+                            {
+                                <li><a href="/services/@svc.Slug" title="@svc.Title">@svc.Title</a></li>
+                            }
+                        </ul>
+                    </li>
+                    <li class="@Active(ctrl == "Blog")"><a href="/blog" title="News">News</a></li>
+                    <li class="@Active(act == "Contact")"><a href="/contact" title="Contact Us">Contact</a></li>
+                    <li class="@Active(act == "Appointment")"><a href="/appointment" title="Appointment">Appointment</a></li>
+                </ul>
+            </div>
+            <div id="loginpanel" class="desktop-hide">
+                <div class="right" id="toggle">
+                    <a id="slideit" href="#slidepanel"><i class="fo-icons fa fa-inbox"></i></a>
+                    <a id="closeit" href="#slidepanel"><i class="fo-icons fa fa-close"></i></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>

@@ -1,0 +1,17 @@
+@model LayoutModel
+<div class="container-fluid no-left-padding no-right-padding newsletter-section">
+    <div class="container">
+        <div class="newsletter-box">
+            <h3>Newsletter</h3>
+            <p>@Model.Settings.NewsletterText.Or("Sign up with your email to get fresh updates about our events")</p>
+            <form method="post" action="/newsletter" asp-antiforgery="true">
+                <input type="hidden" name="returnUrl" value="@(Context.Request.Path + Context.Request.QueryString)" />
+                <div class="form-group">
+                    <i class="fa fa-envelope-o"></i>
+                    <input type="email" name="email" class="form-control" placeholder="Your email address" required maxlength="150">
+                    <input type="submit" value="sign up">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

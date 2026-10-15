@@ -1,0 +1,44 @@
+@model List<UserDto>
+@{
+    ViewData["Title"] = "Users";
+    var currentId = ViewData["CurrentUserId"] as string;
+}
+
+<div class="card">
+    <div class="card-header"><h3 class="card-title">Admin users</h3></div>
+    <div class="card-body">
+        <p class="text-muted">People who register on the admin login page appear here and cannot sign in until you approve them.</p>
+        <table class="table table-bordered table-striped">
+            <thead><tr><th>Name</th><th>Email</th><th>Registered</th><th>Status</th><th style="width:200px">Actions</th></tr></thead>
+            <tbody>
+            @foreach (var u in Model)
+            {
+                <tr>
+                    <td>@u.FullName</td>
+                    <td>@u.Email</td>
+                    <td>@u.CreatedAt.ToString("dd MMM yyyy")</td>
+                    <td><span class="badge @(u.IsApproved ? "badge-success" : "badge-warning")">@(u.IsApproved ? "Approved" : "Pending")</span></td>
+                    <td>
+                        @if (u.Id != currentId)
+                        {
+                            if (u.IsApproved)
+                            {
+                                <form asp-action="Revoke" asp-route-id="@u.Id" method="post" class="d-inline"><button class="btn btn-warning btn-xs" type="submit">Revoke</button></form>
+                            }
+                            else
+                            {
+                                <form asp-action="Approve" asp-route-id="@u.Id" method="post" class="d-inline"><button class="btn btn-success btn-xs" type="submit">Approve</button></form>
+                            }
+                            <form asp-action="Delete" asp-route-id="@u.Id" method="post" class="d-inline confirm-delete"><button class="btn btn-danger btn-xs" type="submit"><i class="fas fa-trash"></i></button></form>
+                        }
+                        else
+                        {
+                            <span class="text-muted">(you)</span>
+                        }
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

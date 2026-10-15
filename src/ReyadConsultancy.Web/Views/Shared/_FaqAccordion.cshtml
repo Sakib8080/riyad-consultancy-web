@@ -1,0 +1,21 @@
+@model List<Faq>
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    @{ var i = 0; }
+    @foreach (var f in Model)
+    {
+        i++;
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading@(i)">
+                <h4 class="panel-title">
+                    <a class="@(i == 1 ? "" : "collapsed")" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse@(i)" aria-expanded="@(i == 1 ? "true" : "false")">@f.Question</a>
+                </h4>
+            </div>
+            <div id="collapse@(i)" class="panel-collapse collapse @(i == 1 ? "in" : "")" role="tabpanel" aria-labelledby="heading@(i)">
+                <div class="panel-body">
+                    <i><img src="/assets/images/faq-img.jpg" alt="Faq"></i>
+                    <p>@f.Answer</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>

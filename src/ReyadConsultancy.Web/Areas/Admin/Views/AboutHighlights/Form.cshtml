@@ -1,0 +1,42 @@
+@model AboutHighlight
+@{
+    var isNew = Model.Id == 0;
+    ViewData["Title"] = (isNew ? "Add " : "Edit ") + "About Page Highlights";
+    ViewData["Menu"] = "AboutHighlights";
+}
+
+<div class="card card-primary card-outline">
+    <div class="card-header"><h3 class="card-title">@ViewData["Title"]</h3></div>
+    <form method="post" enctype="multipart/form-data" asp-antiforgery="true">
+        <div class="card-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label asp-for="Title">Title</label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="IconClass">Icon CSS class</label>
+        <input asp-for="IconClass" class="form-control" />
+        <small class="form-text text-muted">Template icon-font classes, e.g. "icon icon-Bulb", "icon icon-User", "icon icon-WorldGlobe".</small>
+        <span asp-validation-for="IconClass" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="SortOrder">Sort order</label>
+        <input asp-for="SortOrder" type="number" class="form-control" />
+        <span asp-validation-for="SortOrder" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <div class="custom-control custom-switch">
+            <input asp-for="IsActive" type="checkbox" class="custom-control-input" />
+            <label class="custom-control-label" asp-for="IsActive">Active</label>
+        </div>
+    </div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-1"></i> Save</button>
+            <a asp-action="Index" class="btn btn-default">Cancel</a>
+        </div>
+    </form>
+</div>

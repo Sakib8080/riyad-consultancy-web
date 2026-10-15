@@ -1,0 +1,48 @@
+@model PageContent
+@{
+    var isNew = Model.Id == 0;
+    ViewData["Title"] = (isNew ? "Add " : "Edit ") + "Page Text Blocks";
+    ViewData["Menu"] = "PageContents";
+}
+
+<div class="card card-primary card-outline">
+    <div class="card-header"><h3 class="card-title">@ViewData["Title"]</h3></div>
+    <form method="post" enctype="multipart/form-data" asp-antiforgery="true">
+        <div class="card-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label asp-for="Key">Key (do not change for built-in blocks)</label>
+        <input asp-for="Key" class="form-control" />
+        <span asp-validation-for="Key" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Title">Title</label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Body">Content</label>
+        <textarea asp-for="Body" class="form-control summernote" rows="8"></textarea>
+        <span asp-validation-for="Body" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Image</label>
+        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+        {
+            <div class="mb-2"><img src="@Model.ImageUrl" alt="" class="img-thumbnail" style="max-height:110px;background:#ddd" /></div>
+        }
+        <input type="hidden" asp-for="ImageUrl" />
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="ImageUrlFile" name="ImageUrlFile" accept="image/png,image/jpeg,image/gif,image/webp" />
+            <label class="custom-file-label" for="ImageUrlFile">Choose image (max 5 MB)</label>
+        </div>
+        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+    </div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-1"></i> Save</button>
+            <a asp-action="Index" class="btn btn-default">Cancel</a>
+        </div>
+    </form>
+</div>

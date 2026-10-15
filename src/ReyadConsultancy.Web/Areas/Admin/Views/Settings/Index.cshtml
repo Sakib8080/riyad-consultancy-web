@@ -1,0 +1,160 @@
+@model SiteSetting
+@{
+    ViewData["Title"] = "Site Settings";
+}
+
+<form method="post" enctype="multipart/form-data" asp-antiforgery="true">
+    <input type="hidden" asp-for="Id" />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card card-primary card-outline">
+                <div class="card-header"><h3 class="card-title">General &amp; branding</h3></div>
+                <div class="card-body">
+                <div class="form-group">
+                    <label asp-for="SiteName">Site name</label>
+                    <input asp-for="SiteName" class="form-control" />
+                    <span asp-validation-for="SiteName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ShortName">Short name</label>
+                    <input asp-for="ShortName" class="form-control" />
+                    <span asp-validation-for="ShortName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Tagline">Tagline</label>
+                    <input asp-for="Tagline" class="form-control" />
+                    <span asp-validation-for="Tagline" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MetaDescription">Meta description (SEO)</label>
+                    <textarea asp-for="MetaDescription" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="MetaDescription" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label>Logo</label>
+                    @if (!string.IsNullOrEmpty(Model.LogoUrl))
+                    {
+                        <div class="mb-2"><img src="@Model.LogoUrl" alt="" class="img-thumbnail" style="max-height:90px;background:#ddd" /></div>
+                    }
+                    <input type="hidden" asp-for="LogoUrl" />
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="LogoUrlFile" name="LogoUrlFile" accept="image/png,image/jpeg,image/gif,image/webp" />
+                        <label class="custom-file-label" for="LogoUrlFile">Choose image (max 5 MB)</label>
+                    </div>
+                    <span asp-validation-for="LogoUrl" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label>Favicon</label>
+                    @if (!string.IsNullOrEmpty(Model.FaviconUrl))
+                    {
+                        <div class="mb-2"><img src="@Model.FaviconUrl" alt="" class="img-thumbnail" style="max-height:90px;background:#ddd" /></div>
+                    }
+                    <input type="hidden" asp-for="FaviconUrl" />
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="FaviconUrlFile" name="FaviconUrlFile" accept="image/png,image/jpeg,image/gif,image/webp" />
+                        <label class="custom-file-label" for="FaviconUrlFile">Choose image (max 5 MB)</label>
+                    </div>
+                    <span asp-validation-for="FaviconUrl" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label>Footer image</label>
+                    @if (!string.IsNullOrEmpty(Model.FooterImageUrl))
+                    {
+                        <div class="mb-2"><img src="@Model.FooterImageUrl" alt="" class="img-thumbnail" style="max-height:90px;background:#ddd" /></div>
+                    }
+                    <input type="hidden" asp-for="FooterImageUrl" />
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="FooterImageUrlFile" name="FooterImageUrlFile" accept="image/png,image/jpeg,image/gif,image/webp" />
+                        <label class="custom-file-label" for="FooterImageUrlFile">Choose image (max 5 MB)</label>
+                    </div>
+                    <span asp-validation-for="FooterImageUrl" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FooterAboutText">Footer about text</label>
+                    <textarea asp-for="FooterAboutText" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="FooterAboutText" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NewsletterText">Newsletter text</label>
+                    <textarea asp-for="NewsletterText" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="NewsletterText" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CopyrightText">Copyright text</label>
+                    <input asp-for="CopyrightText" class="form-control" />
+                    <span asp-validation-for="CopyrightText" class="text-danger"></span>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card card-primary card-outline">
+                <div class="card-header"><h3 class="card-title">Contact &amp; social</h3></div>
+                <div class="card-body">
+                <div class="form-group">
+                    <label asp-for="Address">Address</label>
+                    <textarea asp-for="Address" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Phone1">Phone 1</label>
+                    <input asp-for="Phone1" class="form-control" />
+                    <span asp-validation-for="Phone1" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Phone2">Phone 2</label>
+                    <input asp-for="Phone2" class="form-control" />
+                    <span asp-validation-for="Phone2" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email1">Email 1</label>
+                    <input asp-for="Email1" class="form-control" />
+                    <span asp-validation-for="Email1" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email2">Email 2</label>
+                    <input asp-for="Email2" class="form-control" />
+                    <span asp-validation-for="Email2" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FacebookUrl">Facebook URL</label>
+                    <input asp-for="FacebookUrl" class="form-control" />
+                    <span asp-validation-for="FacebookUrl" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TwitterUrl">Twitter URL</label>
+                    <input asp-for="TwitterUrl" class="form-control" />
+                    <span asp-validation-for="TwitterUrl" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LinkedInUrl">LinkedIn URL</label>
+                    <input asp-for="LinkedInUrl" class="form-control" />
+                    <span asp-validation-for="LinkedInUrl" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PinterestUrl">Pinterest URL</label>
+                    <input asp-for="PinterestUrl" class="form-control" />
+                    <span asp-validation-for="PinterestUrl" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MapLatitude">Map latitude</label>
+                    <input asp-for="MapLatitude" class="form-control" />
+                    <span asp-validation-for="MapLatitude" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="MapLongitude">Map longitude</label>
+                    <input asp-for="MapLongitude" class="form-control" />
+                    <span asp-validation-for="MapLongitude" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="GoogleMapsApiKey">Google Maps API key (leave empty to hide the contact map)</label>
+                    <input asp-for="GoogleMapsApiKey" class="form-control" />
+                    <span asp-validation-for="GoogleMapsApiKey" class="text-danger"></span>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary mb-4"><i class="fas fa-save mr-1"></i> Save settings</button>
+</form>

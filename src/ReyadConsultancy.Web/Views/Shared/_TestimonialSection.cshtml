@@ -1,0 +1,32 @@
+@model List<Testimonial>
+@if (Model.Any())
+{
+    <div class="container-fluid no-left-padding no-right-padding testimonial-section">
+        <div class="container">
+            <div class="section-header text-center"><h3>what our customers say</h3></div>
+            <div class="col-md-offset-2 col-md-8 no-left-padding no-right-padding">
+                <div id="testimonial-carousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner" role="listbox">
+                        @{ var first = true; }
+                        @foreach (var t in Model)
+                        {
+                            <div class="item @(first ? "active" : "")">
+                                <div class="testimonial-content">
+                                    <div class="testimonial-box">
+                                        <i><img src="@t.PhotoUrl.Or("/assets/images/testi-1.jpg")" alt="@t.Name"></i>
+                                        <h4>@t.Name</h4>
+                                        <span>@t.Designation</span>
+                                    </div>
+                                    <p>@t.Message</p>
+                                </div>
+                            </div>
+                            first = false;
+                        }
+                    </div>
+                    <a class="left carousel-control" href="#testimonial-carousel" role="button" data-slide="prev"><i class="arrow_left"></i></a>
+                    <a class="right carousel-control" href="#testimonial-carousel" role="button" data-slide="next"><i class="arrow_right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+}

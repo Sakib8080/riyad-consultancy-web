@@ -1,0 +1,24 @@
+@model List<Counter>
+@if (Model.Any())
+{
+    <div class="container-fluid no-left-padding no-right-padding counter-section">
+        <div class="container">
+            <div class="section-header text-center"><h3>Counter</h3></div>
+            <div class="skill-progress">
+                @{ var n = 0; }
+                @foreach (var c in Model)
+                {
+                    n++;
+                    <div class="col-md-3 col-xs-4 skill-box">
+                        <div class="skill-icon">
+                            <input class="dial" data-angleoffset="210" data-anglearc="360" data-animation="fade-in" data-fgcolor="#b89b5e" data-bgcolor="rgba(0,0,0,0)" data-delay="0" data-linecap="square" data-readonly="true" data-displayinput="false" data-thickness=".1" data-value="70" data-width="90" data-height="90" type="text" value="0">
+                            <i><img src="@c.IconUrl.Or("/assets/images/counter-icon-1.png")" alt="@c.Title"></i>
+                        </div>
+                        <h3 id="skill_count-@n" data-skills_percent="@c.Value">%</h3>
+                        <h4>@c.Title</h4>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}

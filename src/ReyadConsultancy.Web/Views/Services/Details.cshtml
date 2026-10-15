@@ -1,0 +1,71 @@
+@model ServiceDetailModel
+@{
+    ViewData["Title"] = Model.Service.Title;
+    ViewData["Description"] = Model.Service.ShortDescription;
+    ViewData["Banner"] = "Service";
+    ViewData["BannerSub"] = "Details";
+}
+
+<div class="container-fluid no-left-padding no-right-padding service-single">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9 col-sm-7 col-xs-12 content-area">
+                <div class="service-single-detail">
+                    <img src="@Model.Service.BannerImageUrl.Or(Model.Service.ImageUrl.Or("/assets/images/services-single.jpg"))" alt="@Model.Service.Title">
+                    <h4>@Model.Service.Title</h4>
+                    @if (!string.IsNullOrWhiteSpace(Model.Service.Description)) { @Html.Raw(Model.Service.Description) }
+                    else { <p>@Model.Service.ShortDescription</p> }
+
+                    @if (Model.Related.Any())
+                    {
+                        <h3>Other services you may need</h3>
+                        <div class="row">
+                            @foreach (var r in Model.Related)
+                            {
+                                <div class="col-sm-4 col-xs-12">
+                                    <div class="practice-box">
+                                        <a href="/services/@r.Slug">
+                                            <i><img src="@r.ImageUrl.Or("/assets/images/practice-6.jpg")" alt="@r.Title"></i>
+                                            <div class="content-box">
+                                                <i><img src="@r.IconUrl.Or("/assets/images/practice-icon-5.png")" alt="Icon"></i>
+                                                <h4>@r.Title</h4>
+                                                <p>@r.Subtitle</p>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-5 col-xs-12 widget-area">
+                <aside class="widget widget_practice">
+                    <h3 class="widget-title">all services</h3>
+                    <ul>
+                        @foreach (var s in Model.AllServices)
+                        {
+                            <li><a href="/services/@s.Slug" title="@s.Title">@s.Title</a></li>
+                        }
+                    </ul>
+                </aside>
+                @if (Model.Member != null)
+                {
+                    <aside class="widget widget_member">
+                        <h3 class="widget-title">our team member</h3>
+                        <div class="member-box">
+                            <img src="@Model.Member.PhotoUrl.Or("/assets/images/wid-member.jpg")" alt="@Model.Member.Name">
+                            <h3>@Model.Member.Name</h3>
+                            <p>@Model.Member.Designation</p>
+                        </div>
+                    </aside>
+                }
+                <aside class="widget widget_brochures">
+                    <h3 class="widget-title">need advice?</h3>
+                    <a href="/appointment" title="Book a free consultation"><i class="fa fa-calendar"></i>Book a consultation</a>
+                    <a href="/contact" title="Contact us"><i class="fa fa-envelope-o"></i>Contact us</a>
+                </aside>
+            </div>
+        </div>
+    </div>
+</div>

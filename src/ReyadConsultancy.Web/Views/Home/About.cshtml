@@ -1,0 +1,39 @@
+@model AboutPageModel
+@{
+    ViewData["Title"] = "About Us";
+    ViewData["Banner"] = "ABOUT";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-xs-12 about-section2 no-top-margin">
+            <div class="section-header"><h3>@(Model.About?.Title ?? "About Us")</h3></div>
+            @if (!string.IsNullOrWhiteSpace(Model.About?.Body)) { @Html.Raw(Model.About!.Body) }
+            <div class="about-detail row">
+                @foreach (var h in Model.Highlights)
+                {
+                    <div class="col-sm-6">
+                        <div class="about-box">
+                            <i class="@h.IconClass"></i>
+                            <h4>@h.Title</h4>
+                        </div>
+                    </div>
+                }
+            </div>
+            <a href="/services" title="Our Services">Our Services</a>
+        </div>
+        <div class="col-md-6 col-xs-12 work-section no-top-margin">
+            <div class="section-header"><h3>@(Model.Work?.Title ?? "Our Work")</h3></div>
+            @if (!string.IsNullOrWhiteSpace(Model.Work?.Body)) { @Html.Raw(Model.Work!.Body) }
+            <a href="/blog" title="Latest News">Latest News</a>
+            @if (!string.IsNullOrWhiteSpace(Model.Work?.ImageUrl))
+            {
+                <div style="margin-top:20px"><img src="@Model.Work!.ImageUrl" alt="@Model.Work.Title" style="max-width:100%"></div>
+            }
+        </div>
+    </div>
+</div>
+
+<partial name="_CounterSection" model="Model.Counters" />
+<partial name="_TeamSection" model="Model.Team" />
+<partial name="_TestimonialSection" model="Model.Testimonials" />

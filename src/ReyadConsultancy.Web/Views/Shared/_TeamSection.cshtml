@@ -1,0 +1,22 @@
+@model List<TeamMember>
+@if (Model.Any())
+{
+    <div id="team" class="container-fluid no-left-padding no-right-padding team-section">
+        <div class="container">
+            <div class="section-header text-center"><h3>team members</h3></div>
+            <div class="team-carousel">
+                @foreach (var m in Model)
+                {
+                    <div class="col-md-12">
+                        <div class="team-box">
+                            <i><img src="@m.PhotoUrl.Or("/assets/images/team-1.jpg")" alt="@m.Name"></i>
+                            <h4>@m.Name</h4>
+                            <span>@m.Designation</span>
+                            <partial name="_Social" model="m" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}

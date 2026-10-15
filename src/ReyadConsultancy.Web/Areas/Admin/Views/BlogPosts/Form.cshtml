@@ -1,0 +1,83 @@
+@model BlogPost
+@{
+    var isNew = Model.Id == 0;
+    ViewData["Title"] = (isNew ? "Add " : "Edit ") + "Blog Posts";
+    ViewData["Menu"] = "BlogPosts";
+}
+
+<div class="card card-primary card-outline">
+    <div class="card-header"><h3 class="card-title">@ViewData["Title"]</h3></div>
+    <form method="post" enctype="multipart/form-data" asp-antiforgery="true">
+        <div class="card-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label asp-for="Title">Title</label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Slug">URL slug</label>
+        <input asp-for="Slug" class="form-control" />
+        <small class="form-text text-muted">Leave empty to generate from the title.</small>
+        <span asp-validation-for="Slug" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Summary">Summary</label>
+        <textarea asp-for="Summary" class="form-control" rows="4"></textarea>
+        <span asp-validation-for="Summary" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Content">Content</label>
+        <textarea asp-for="Content" class="form-control summernote" rows="8"></textarea>
+        <span asp-validation-for="Content" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>Cover image</label>
+        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+        {
+            <div class="mb-2"><img src="@Model.ImageUrl" alt="" class="img-thumbnail" style="max-height:110px;background:#ddd" /></div>
+        }
+        <input type="hidden" asp-for="ImageUrl" />
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="ImageUrlFile" name="ImageUrlFile" accept="image/png,image/jpeg,image/gif,image/webp" />
+            <label class="custom-file-label" for="ImageUrlFile">Choose image (max 5 MB)</label>
+        </div>
+        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Author">Author</label>
+        <input asp-for="Author" class="form-control" />
+        <span asp-validation-for="Author" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PublishedAt">Published on</label>
+        <input asp-for="PublishedAt" type="date" class="form-control" />
+        <span asp-validation-for="PublishedAt" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Tags">Tags</label>
+        <input asp-for="Tags" class="form-control" />
+        <small class="form-text text-muted">Comma separated, e.g. strategy, finance, startup</small>
+        <span asp-validation-for="Tags" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="CategoryId">Category</label>
+        <select asp-for="CategoryId" class="form-control" asp-items="(IEnumerable<SelectListItem>)ViewBag.Categories">
+            <option value="">-- none --</option>
+        </select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <div class="custom-control custom-switch">
+            <input asp-for="IsPublished" type="checkbox" class="custom-control-input" />
+            <label class="custom-control-label" asp-for="IsPublished">Published</label>
+        </div>
+    </div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary"><i class="fas fa-save mr-1"></i> Save</button>
+            <a asp-action="Index" class="btn btn-default">Cancel</a>
+        </div>
+    </form>
+</div>

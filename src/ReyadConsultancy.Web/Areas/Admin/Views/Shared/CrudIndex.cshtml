@@ -1,0 +1,57 @@
+@model CrudIndexViewModel
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">@Model.Title</h3>
+        @if (Model.CanCreate)
+        {
+            <div class="card-tools"><a asp-action="Create" class="btn btn-primary btn-sm"><i class="fas fa-plus mr-1"></i> Add new</a></div>
+        }
+    </div>
+    <div class="card-body">
+        <table id="crudTable" class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th style="width:50px">#</th>
+                    @foreach (var h in Model.Headers) { <th>@h</th> }
+                    <th style="width:140px">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var row in Model.Rows)
+                {
+                    <tr>
+                        <td>@row.Id</td>
+                        @foreach (var cell in row.Cells)
+                        {
+                            <td>
+                                @switch (cell.Kind)
+                                {
+                                    case CellKind.Image:
+                                        if (!string.IsNullOrEmpty(cell.Text)) { <img src="@cell.Text" alt="" style="height:42px;max-width:90px;object-fit:contain;background:#ddd" /> }
+                                        else { <span class="text-muted">-</span> }
+                                        break;
+                                    case CellKind.Bool:
+                                        <span class="badge @(cell.Flag ? "badge-success" : "badge-secondary")">@(cell.Flag ? "Yes" : "No")</span>
+                                        break;
+                                    default:
+                                        <text>@cell.Text</text>
+                                        break;
+                                }
+                            </td>
+                        }
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@row.Id" class="btn btn-info btn-xs"><i class="fas fa-edit"></i> @(Model.CanCreate ? "Edit" : "Open")</a>
+                            <form asp-action="Delete" asp-route-id="@row.Id" method="post" class="d-inline confirm-delete">
+                                <button type="submit" class="btn btn-danger btn-xs"><i class="fas fa-trash"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

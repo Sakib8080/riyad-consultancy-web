@@ -1,0 +1,60 @@
+@model DashboardModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="row">
+    <div class="col-lg-2 col-6"><div class="small-box bg-info"><div class="inner"><h3>@Model.Services</h3><p>Services</p></div><div class="icon"><i class="fas fa-briefcase"></i></div><a asp-controller="Services" asp-action="Index" class="small-box-footer">Manage <i class="fas fa-arrow-circle-right"></i></a></div></div>
+    <div class="col-lg-2 col-6"><div class="small-box bg-success"><div class="inner"><h3>@Model.BlogPosts</h3><p>Blog posts</p></div><div class="icon"><i class="fas fa-newspaper"></i></div><a asp-controller="BlogPosts" asp-action="Index" class="small-box-footer">Manage <i class="fas fa-arrow-circle-right"></i></a></div></div>
+    <div class="col-lg-2 col-6"><div class="small-box bg-warning"><div class="inner"><h3>@Model.UnreadMessages</h3><p>Unread messages</p></div><div class="icon"><i class="fas fa-envelope"></i></div><a asp-controller="ContactMessages" asp-action="Index" class="small-box-footer">Open <i class="fas fa-arrow-circle-right"></i></a></div></div>
+    <div class="col-lg-2 col-6"><div class="small-box bg-danger"><div class="inner"><h3>@Model.PendingAppointments</h3><p>Pending appointments</p></div><div class="icon"><i class="fas fa-calendar-check"></i></div><a asp-controller="Appointments" asp-action="Index" class="small-box-footer">Open <i class="fas fa-arrow-circle-right"></i></a></div></div>
+    <div class="col-lg-2 col-6"><div class="small-box bg-primary"><div class="inner"><h3>@Model.PendingComments</h3><p>Comments to review</p></div><div class="icon"><i class="fas fa-comments"></i></div><a asp-controller="BlogComments" asp-action="Index" class="small-box-footer">Review <i class="fas fa-arrow-circle-right"></i></a></div></div>
+    <div class="col-lg-2 col-6"><div class="small-box bg-secondary"><div class="inner"><h3>@Model.Subscribers</h3><p>Subscribers</p></div><div class="icon"><i class="fas fa-at"></i></div><a asp-controller="Subscribers" asp-action="Index" class="small-box-footer">Open <i class="fas fa-arrow-circle-right"></i></a></div></div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header"><h3 class="card-title">Recent contact messages</h3></div>
+            <div class="card-body p-0">
+                <table class="table table-sm">
+                    <thead><tr><th>Name</th><th>Phone</th><th>Received</th><th></th></tr></thead>
+                    <tbody>
+                    @foreach (var m in Model.RecentMessages)
+                    {
+                        <tr>
+                            <td>@if (!m.IsRead) { <span class="badge badge-warning mr-1">new</span> }@m.Name</td>
+                            <td>@m.Phone</td>
+                            <td>@m.CreatedAt.ToString("dd MMM yyyy")</td>
+                            <td><a asp-controller="ContactMessages" asp-action="Edit" asp-route-id="@m.Id">Open</a></td>
+                        </tr>
+                    }
+                    @if (!Model.RecentMessages.Any()) { <tr><td colspan="4" class="text-muted">No messages yet.</td></tr> }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header"><h3 class="card-title">Recent appointments</h3></div>
+            <div class="card-body p-0">
+                <table class="table table-sm">
+                    <thead><tr><th>Name</th><th>Preferred date</th><th>Status</th><th></th></tr></thead>
+                    <tbody>
+                    @foreach (var a in Model.RecentAppointments)
+                    {
+                        <tr>
+                            <td>@a.FirstName @a.LastName</td>
+                            <td>@(a.AppointmentDate?.ToString("dd MMM yyyy"))</td>
+                            <td><span class="badge @(a.Status == AppointmentStatus.Pending ? "badge-warning" : a.Status == AppointmentStatus.Cancelled ? "badge-secondary" : "badge-success")">@a.Status</span></td>
+                            <td><a asp-controller="Appointments" asp-action="Edit" asp-route-id="@a.Id">Open</a></td>
+                        </tr>
+                    }
+                    @if (!Model.RecentAppointments.Any()) { <tr><td colspan="4" class="text-muted">No appointments yet.</td></tr> }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,15 @@
+@model List<ClientLogo>
+@if (Model.Any())
+{
+    <div class="container-fluid no-left-padding no-right-padding client-section">
+        <div class="container">
+            <div class="section-header text-center"><h3>clients logo</h3></div>
+            <div class="client-carousel">
+                @foreach (var c in Model)
+                {
+                    <div class="client-item"><a href="@c.LinkUrl.Or("#")"><img src="@c.ImageUrl.Or("/assets/images/client-1.png")" alt="@c.Name"></a></div>
+                }
+            </div>
+        </div>
+    </div>
+}

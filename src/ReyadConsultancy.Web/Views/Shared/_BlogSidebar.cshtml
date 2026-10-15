@@ -1,0 +1,74 @@
+@model BlogSidebarModel
+<div class="col-md-3 col-sm-6 widget-area">
+    <aside class="widget widget_search">
+        <h3 class="widget-title">search box</h3>
+        <form method="get" class="searchform" action="/blog">
+            <div class="input-group">
+                <input placeholder="Search here" class="form-control" required type="text" name="q">
+                <span class="input-group-btn"><button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button></span>
+            </div>
+        </form>
+    </aside>
+
+    @if (Model.Categories.Any())
+    {
+        <aside class="widget widget_categories">
+            <h3 class="widget-title">categories</h3>
+            <ul>
+                @foreach (var c in Model.Categories)
+                {
+                    <li><a href="/blog?category=@c.Slug">@c.Name</a> (@c.Count)</li>
+                }
+            </ul>
+        </aside>
+    }
+
+    @if (Model.Latest.Any())
+    {
+        <aside class="widget widget_latestposts">
+            <h3 class="widget-title">latest news</h3>
+            @foreach (var p in Model.Latest)
+            {
+                <div class="latest-content">
+                    <a href="/blog/@p.Slug" title="@p.Title"><i><img src="@p.ImageUrl.Or("/assets/images/ftr-wd-lp-1.jpg")" class="wp-post-image" alt="@p.Title" style="width:80px;height:80px;object-fit:cover"></i></a>
+                    <h5><a title="@p.Title" href="/blog/@p.Slug">@p.Title</a></h5>
+                    <span><a href="/blog/@p.Slug">@p.PublishedAt.ToString("MMMM dd, yyyy")</a></span>
+                </div>
+            }
+        </aside>
+    }
+
+    @if (Model.TextWidget != null)
+    {
+        <aside id="text" class="widget widget_text">
+            <h3 class="widget-title">@Model.TextWidget.Title</h3>
+            <div class="textwidget">@Html.Raw(Model.TextWidget.Body)</div>
+        </aside>
+    }
+
+    @if (Model.Archives.Any())
+    {
+        <aside class="widget widget_archive">
+            <h3 class="widget-title">blog archives</h3>
+            <ul>
+                @foreach (var a in Model.Archives)
+                {
+                    <li>@ViewHelpers.MonthName(a.Month) @a.Year (@a.Count)</li>
+                }
+            </ul>
+        </aside>
+    }
+
+    @if (Model.Tags.Any())
+    {
+        <aside id="tag_cloud" class="widget widget_tag_cloud">
+            <h3 class="widget-title">tags</h3>
+            <div class="tagcloud">
+                @foreach (var t in Model.Tags)
+                {
+                    <a href="/blog?tag=@Uri.EscapeDataString(t)" title="@t">@t</a>
+                }
+            </div>
+        </aside>
+    }
+</div>

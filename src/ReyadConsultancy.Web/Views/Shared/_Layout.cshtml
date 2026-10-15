@@ -1,0 +1,97 @@
+@inject IWebsiteContentService Site
+@{
+    var layout = await Site.GetLayoutAsync();
+    var s = layout.Settings;
+    var pageTitle = ViewData["Title"] as string;
+    var fullTitle = string.IsNullOrWhiteSpace(pageTitle) ? s.SiteName : pageTitle + " - " + s.ShortName.Or(s.SiteName);
+    var description = (ViewData["Description"] as string).Or(s.MetaDescription ?? "");
+    var banner = ViewData["Banner"] as string;
+    var bannerSub = ViewData["BannerSub"] as string;
+    var hasMap = (ViewData["ShowMap"] as bool?) == true && s.MapLatitude.HasValue && s.MapLongitude.HasValue && !string.IsNullOrWhiteSpace(s.GoogleMapsApiKey);
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="@description">
+    <meta name="author" content="@s.SiteName">
+    <title>@fullTitle</title>
+
+    <link rel="icon" type="image/x-icon" href="@s.FaviconUrl.Or("/favicon.ico")">
+    <link rel="apple-touch-icon-precomposed" href="/assets/images/apple-touch-icon-114x114-precomposed.png">
+
+    <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900|Vollkorn:400,400i,700,700i" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="/assets/revolution/css/settings.css">
+    <link rel="stylesheet" type="text/css" href="/assets/revolution/fonts/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="/assets/revolution/css/layers.css">
+    <link rel="stylesheet" type="text/css" href="/assets/revolution/css/navigation.css">
+
+    <link href="/assets/css/lib.css" rel="stylesheet">
+    <link href="/assets/css/flags.css" rel="stylesheet">
+    <link href="/assets/css/plugins.css" rel="stylesheet">
+    <link href="/assets/css/elements.css" rel="stylesheet">
+    <link href="/assets/css/rtl.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    @if (IsSectionDefined("Styles")) { @await RenderSectionAsync("Styles", required: false) }
+</head>
+<body data-offset="200" data-spy="scroll" data-target=".ownavigation">
+
+    <div id="site-loader" class="load-complete">
+        <div class="loader"><div class="loader-inner ball-clip-rotate"><div></div></div></div>
+    </div>
+
+    <partial name="_Header" model="layout" />
+
+    <div class="main-container">
+        @if (!string.IsNullOrEmpty(banner))
+        {
+            <div class="container-fluid no-left-padding no-right-padding page-banner">
+                <div class="container">
+                    <h3>@banner @if (!string.IsNullOrEmpty(bannerSub)) { <span>@bannerSub</span> }</h3>
+                    <ol class="breadcrumb">
+                        <li><a href="/">Home</a></li>
+                        <li class="active">@(bannerSub ?? banner)</li>
+                    </ol>
+                </div>
+            </div>
+        }
+
+        @if (TempData["Success"] is string okMsg)
+        {
+            <div class="container"><div class="alert alert-success" role="alert" style="margin-top:25px">@okMsg</div></div>
+        }
+        @if (TempData["Error"] is string errMsg)
+        {
+            <div class="container"><div class="alert alert-danger" role="alert" style="margin-top:25px">@errMsg</div></div>
+        }
+
+        <main class="site-main">
+            @RenderBody()
+            <partial name="_Newsletter" model="layout" />
+        </main>
+
+        <partial name="_Footer" model="layout" />
+    </div>
+
+    <script src="/assets/js/jquery-1.12.4.min.js"></script>
+    <script src="/assets/js/lib.js"></script>
+    <script src="/assets/js/jquery.flagstrap.min.js"></script>
+    <script src="/assets/js/jquery.knob.js"></script>
+    <script src="/assets/revolution/js/jquery.themepunch.tools.min.js?rev=5.0"></script>
+    <script src="/assets/revolution/js/jquery.themepunch.revolution.min.js?rev=5.0"></script>
+    <script src="/assets/revolution/js/extensions/revolution.extension.video.min.js"></script>
+    <script src="/assets/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
+    <script src="/assets/revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
+    <script src="/assets/revolution/js/extensions/revolution.extension.navigation.min.js"></script>
+    @if (IsSectionDefined("PreScripts")) { @await RenderSectionAsync("PreScripts", required: false) }
+    @if (hasMap)
+    {
+        <script src="https://maps.googleapis.com/maps/api/js?key=@s.GoogleMapsApiKey"></script>
+    }
+    <script src="/assets/js/functions.js"></script>
+    @if (IsSectionDefined("Scripts")) { @await RenderSectionAsync("Scripts", required: false) }
+</body>
+</html>
